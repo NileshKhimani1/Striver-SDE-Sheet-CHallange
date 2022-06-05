@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+    int ans = 0;                        // to xor the numbers 
+    
+    for(int i = 1; i<=n; i++)           // xor from 1 to n
+    {
+        ans ^= i;
+        ans ^= arr[i-1];
+    }
+    
+    int bno = ans & ~(ans - 1);         // left most set bit
+    
+    int x = 0, y = 0;                   // two buckets
+    
+    for(int i = 1; i<=n; i++)           // xor this with bucket numbers
+    {
+        if(arr[i-1] &  bno)             // numbers in the buckets
+            x ^= arr[i-1];
+        else
+            y ^= arr[i - 1];
+            
+        if(i & bno)                     // xoring numbers
+            x ^= i;
+        else
+            y ^= i;
+    }
+    
+    int cnt = 0;                        // which is missing and repeating
+    
+    for(int i = 0; i<n; i++)
+        if(arr[i] == x)
+        cnt++;
+        
+    pair<int, int> p;
+    p.first = x;
+    p.second = y;
+    
+    if(cnt)
+    {
+        p.first = y;
+        p.second = x;
+    }
+    return p;
+}
