@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+vector<int> majorityElementII(vector<int> &arr)
+{
+    vector<int> ans;
+    
+    int n = arr.size();
+    
+    int cnt1 = 0, cnt2 = 0;
+    int num1 = -1e9, num2 = -1e9;
+    
+    for(int i = 0; i<n; i++)
+    {
+        if(arr[i] == num1)
+            cnt1++;
+        else if(arr[i] == num2)
+            cnt2++;
+        else if(cnt1 == 0)            // if it's 0, assign a number 
+        {
+            num1 = arr[i];
+            cnt1++;
+        }
+        else if(cnt2 == 0)            // assign a new number
+        {
+            num2 = arr[i];
+            cnt2++;
+        }
+        else                            // dono me se koi kam ka nahi        
+        {
+            cnt1--;
+            cnt2--;
+        }
+    }
+    cnt1 = 0, cnt2 = 0;                 // to check the majority
+    for(auto it : arr)
+    {
+        if(it == num1)
+            cnt1++;
+        if(it == num2)
+            cnt2++;
+    }
+    if(cnt1 > n / 3)
+        ans.push_back(num1);
+    if(cnt2 > n / 3)
+        ans.push_back(num2);
+    return ans;
+}
