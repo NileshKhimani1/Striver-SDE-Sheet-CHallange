@@ -1,7 +1,22 @@
 #include<bits/stdc++.h>
-int getMedian(vector<vector<int>> &arr)
+int binary_srch(vector<int> &arr, int mid)
 {
     int n = arr.size();
+    int l = 0, r = n-1;
+    
+    while(l<=r)
+    {
+        int m = l + ((r-l)>>1);
+        if(arr[m] <= mid)
+            l = m + 1;
+        else
+            r = m - 1;
+    }
+    return l;
+}
+int getMedian(vector<vector<int>> &arr)
+{
+     int n = arr.size();
     int m = arr[0].size();
     
     int mn = INT_MAX, mx = INT_MIN;
@@ -20,11 +35,11 @@ int getMedian(vector<vector<int>> &arr)
         
         int cntLess = 0;
         
-        for(int  i = 0; i<n; i++)
-            cntLess += upper_bound(arr[i].begin(), arr[i].end(), mid) - arr[i].begin();
+        for(int i = 0; i<n; i++)
+            cntLess += binary_srch(arr[i], mid);
         
         if(tarInd <= cntLess)
-            mx = mid ;
+            mx = mid;
         else
             mn = mid + 1;
     }
