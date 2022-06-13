@@ -1,24 +1,30 @@
 #include <bits/stdc++.h> 
 
-string fourSum(vector<int> arr, int s, int n) {
-    sort(arr.begin(), arr.end());
-    
-    for(int i = 0; i<n-3; i++)
+string fourSum(vector<int> arr, int target, int n) {
+    unordered_map<int, pair<int, int>> mp;    // sum and indexes
+    for(int i = 0; i < n - 1; i++)
     {
-        for(int j = i+1; j<n-2; j++)
+        for(int j = i + 1; j < n; j++)
         {
-            int tar = s - arr[i] - arr[j];
-            int l = j+1, r = n-1;
+            int sum = arr[i] + arr[j];
+            mp[sum] = {i, j};
+        }
+    }
+    
+    for(int i = 0; i < n - 1; i++)
+    {
+        for(int j = i + 1; j < n; j++)
+        {
+            int left = target - (arr[i] + arr[j]);        // target in map
             
-            while(l < r)
+            if(mp.find(left) != mp.end())
             {
-                int temp = arr[l] + arr[r];
-                if(temp == tar)
+                pair<int, int> it = mp[left];
+                int k = it.first;
+                int l = it.second;
+
+                if(i != k && i != l && j != k && j != l)    // if sub diff hai
                     return "Yes";
-                else if(temp < tar)
-                    l++;
-                else
-                    r--;
             }
         }
     }
